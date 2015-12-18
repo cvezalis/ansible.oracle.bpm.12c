@@ -1,0 +1,29 @@
+################################################################################
+# ==> Main Tasks for soa-domain Role
+# ==> Creates a Domain with Fussion Middleware 12c R2 Infrastructure software
+# ==> Compatible with 12.2.1
+# ==> author: Christos Vezalis
+################################################################################
+
+# ==> Create new domain
+- name: check if domain folder exists
+  stat: path={{ domain_home }}
+  register: domain_exists
+
+- name: copy create domain python script
+  template: src=create-domain.py dest={{ mw_installer_folder }} owner={{ oracle_user }} group={{ oracle_group }}
+  tags:
+    - create-domain
+- name: Execute create domain script
+  shell: "{{ weblogic_home }}/common/bin/wlst.sh {{ mw_installer_folder }}/create-domain.py"
+  when: domain_exists.stat.exists == False
+  tags:
+    - create-domain
+
+# ==> Create Environment Variables for Oracle user
+#- name: Creates new .bashrc file with system variables
+#  template: src=.bashrc dest=/home/oracle/.bashrc
+- name: Add Oracle Home environment variables
+  lineinfile: dest='/home/{{ oracle_user }}/.bashrc' line='export ORACLE_HOME={{ middleware_home }}'
+  tags:
+    - oracle-vars
