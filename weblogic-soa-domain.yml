@@ -1,7 +1,7 @@
 ---
 - name: Configure Oracle/CentOS/RHEL Linux 7 with WebLogic 12c R2 domain
   hosts: weblogic
-  sudo: True
+  become: True
   vars_files:
     # User defined variables for infrastructure
     - infra-vars.yml
@@ -13,16 +13,16 @@
     - role: linux-wls
     - role: linux-jdk
     - role: fmw-software
-      sudo_user: '{{ oracle_user }}'
+      become_user: "{{ oracle_user }}"
     - role: soa-software
-      sudo_user: '{{ oracle_user }}'
+      become_user: "{{ oracle_user }}"
     - role: soa-domain
-      sudo_user: '{{ oracle_user }}'
+      become_user: "{{ oracle_user }}"
     - role: node-manager
     - role: start-admin-server
-      sudo_user: '{{ oracle_user }}'
+      become_user: "{{ oracle_user }}"
     - role: start-managed-server
-      sudo_user: '{{ oracle_user }}'
+      become_user: "{{ oracle_user }}"
 
   pre_tasks:
     # ==> Fix hosts file. Remove hostname from local loop. A workaround for
