@@ -1,0 +1,5 @@
+roles/fmw-software/files/fmw_12.2.1.2.0_infrastructure.jar
+roles/linux-jdk/files/jdk-8u101-linux-x64.tar.gz
+roles/soa-software/files/fmw_12.2.1.2.0_soa.jar
+weblogic-soa-domain.retry
+
